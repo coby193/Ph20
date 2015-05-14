@@ -1,0 +1,107 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Preamble
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm,graphicx}
+\usepackage{listings}
+\lstset{breaklines}
+\newtheorem*{prop}{Proposition}
+\newcommand{\bigsin}[2]{\sin{\left(\frac{#1}{#2}\right)}}
+\newcommand{\bigcos}[2]{\cos{\left(\frac{#1}{#2}\right)}}
+\newcommand{\sqrf}[2]{\sqrt{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\ang}{\text{\AA}}
+\newcommand{\h}{\hbar}
+\newcommand{\eps}{\epsilon_0}
+\newcommand{\brac}[1]{\left<#1\right>}
+\newcommand{\bbrac}[1]{\big<#1\big>}
+\newcommand{\fint}{\int_{-\infty}^\infty}
+\newcommand{\ncr}[2]{\left( \begin{matrix} #1 \\ #2 \end{matrix} \right)}
+\newcommand{\gr}[1]{\left( #1 \right)}
+\newcommand{\mat}[1]{\left( \begin{matrix} #1 \end{matrix} \right)}
+\newcommand{\bra}[1]{\left< #1 \right|}
+\newcommand{\ket}[1]{\left| #1 \right>}
+\newcommand{\kbra}[2]{\ket{#1}\bra{#2}}
+\newcommand{\squig}[1]{\overset{\sim}{#1}}
+\newcommand{\fig}[1]{\begin{center}\includegraphics{#1}\end{center}}
+\newcommand{\scfig}[2]{\begin{center}\includegraphics[scale=#1]{#2}\end{center}}
+\newcommand{\newlines}{\newline \newline}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Heading
+	\title{Ph 20 Set 3}
+	\author{Jacob Abrahams \\ Section 2}
+	\date{4/23/15}
+	\maketitle
+      
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Problem 1
+	\section*{Problem 1.1}
+		All my code will be at the end. Here's my plot using $x_0 = 0$ and $v_0 = 1$, with $h = .0001$
+		\begin{center}
+			\includegraphics[scale = .65]{"Ph20Set3OscillatorFigure1"}
+		\end{center}
+	\section*{Problem 1.2}
+		With those initial conditions, the equations for $x$ and $v$ are
+		\[x = A\sin{(\omega t)}.\ \ v = B\cos{(\omega t)}\]
+		Our initial conditions obviously give $B = 1$ and this derivatiee means $A = 1$. I'm honestly not entirely sure why, but implementing this without any constants out front lead (empirically) to $\omega = 1$ so it's actually just
+		\[x = \sin{t},\ \ v = \cos{t}\]
+		And we get the gorgeous figure
+		\begin{center}
+			\includegraphics[scale=.75]{"Ph20Set3ErrorPlot"}
+		\end{center}
+	\section*{Problem 1.3}
+		I did what was suggested, plotting $h_0, h_0/2, h_0/4, h_0/8, h_0/16$. My computer, however, couldn't finish when using $h_0 = .0001$ (making the largest step size my old one) so I switched it to $h_0 = .0016$ so that the finest step size would be the one I used above. This produced
+		\begin{center}
+			\includegraphics[scale=.7]{"Ph20Set3hcomparison"}
+		\end{center}
+		which does in fact have really nice linear maximum errors. \pagebreak
+	\section*{Problem 1.4}
+		I made the plot accoridng to $E = v^2 + x^2$ and it does give what looks roughly like the envelope for the $v$ and $x$ errors we saw growing in problem 2, which is what we'd expect. I went back to a step size of $h = .0001$ for this. Note python labelled the y axis really annoyingly and I'm not sure (can't be bothered) to sort out how to fix it, but that +1 above is indicating that the yaxis values are actually $1.0005 \cdots 1.0035$, not the values indicated. 
+		\begin{center}
+			\includegraphics[scale=.7]{"Ph20Set3Energies"}
+		\end{center}
+		\pagebreak
+	\section*{Problem 1.5}
+		\[x_{i+1} = x_i + hv_{i+1},\ \ v_{i+1} = v_i - hx_{i+1}\]
+		\[\implies v_{i+1} = v_i - h\left(x_i + hv_{i+1}\right)\]
+		\[v_{i+1}= \frac{v_i - hx_i}{1 + h^2} \]
+		\[\implies x_{i+1} = \frac{hv_i + x_i}{1 + h^2}\]
+		\begin{center}
+			\includegraphics[scale=.7]{"Ph20Set3ImplicitErrors"}
+		\end{center}
+		They appear to have errors which grow identically. I won't plot total energy because the two plots will just be on top of eachother, and this gets the point across in a much prettier way anyway. \pagebreak
+	\section*{Problem 2.1}
+		With $v_0 = 1$, $x_0 = 0$ and $h = .01$, these phase plots result, explicit first.
+		\begin{center}
+	%		\includegraphics[scale=.53]{"Ph20Set3ExplicitPhase"}
+		\end{center}
+		\begin{center}
+			\includegraphics[scale=.53]{"Ph20Set3ImplicitPhase"}
+		\end{center}
+		Interestingly, the explicit method spirals outward, and the implicit method spirals inward.
+	\section*{Problem 2.2}
+		\[v_{i+1} = v_i - hx_{x+i},\ \ x_{i+1} = x_i + h v_i\]
+		\[\implies v_{i+1} = v_i - h\left(x_i + hv_i\right) = (1-h^2)v_i - hx_i\]
+		\begin{center}
+			\includegraphics[scale=.7]{"Ph20Set3SymplecticPhase"}
+		\end{center}
+		This uses the same number of cycles as the previous, so it is clear that there is no spiraling going on or, if there is, it is so small that it isn't resolved on this plot. This method, at least from an energy conservation viewpoint, is clearly better than the previous two methods. \pagebreak
+	\section*{Problem 2.3}
+		\begin{center}
+			\includegraphics[scale=.5]{"Ph20Set3SymplecticEnergy1"}
+		\end{center}
+		\begin{center}
+			\includegraphics[scale=.5]{"Ph20Set3SymplecticEnergy2"}
+		\end{center}
+		These both use $x_0 = 0,\ v_0 = 1$, but the first uses $h = .01$ and the second uses $h = .1$. It is clear that the energy is not constant, it oscillates with time, but it oscillates around what at least appears to be a constant value, so energy is... mostly... conserved.
+	\section*{Problem 2.4}
+		\begin{center}
+			\includegraphics[scale=.7]{"Ph20Set3PhaseComparison"}
+		\end{center}
+		My computer had a really bad time making this, but eventually I got it to work. This is with $h=.01$. All the previous plots I told it to compute 5 cycles, this time I told it to compute 5000 and then only display the last 5ish (rounding error, I didn't give the cutoff super carefully) cycles. Even after 1000 cycles, the offset is pretty small, but it does exist. \pagebreak
+	\section*{Code}
+		\centering Here's my makefile
+		\lstinputlisting[language=make]{Makefile}
+		\centering And python code
+		\lstinputlisting[language=Python]{Ph20Set3Oscillator.py}
+\end{document}
